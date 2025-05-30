@@ -16,7 +16,7 @@ def compute_kl(new_logprobs, ref_logprobs, logits_p=None, logits_q=None):
     return new_logprobs - ref_logprobs
 ```
 
-Note that if `logits_p` and `logits_q` are not `None`, the KL divergence is computed using the log probabilities of the logits. Otherwise, the KL divergence is computed using the RB estimator, and is otherwise set to the MC estimator.
+Note that if `logits_p` and `logits_q` are `None`, the KL divergence is computed using the MC estimator. Otherwise, the KL divergence is computed using the RB estimator using the full conditional distribution given by the logits.
 
 # Integration with RLOO
 We can use this estimator either to evaluate RLHFed models, or to use it in the RL loop. We modify the `rloo` trainer in the `trl` library to use this RB estimator. This includes the modified trainer in `trainer/rloo_trainer.py` and a new config in `trainer/rloo_config.py`, which add `stepwise` to the RLOO trainer config. 
